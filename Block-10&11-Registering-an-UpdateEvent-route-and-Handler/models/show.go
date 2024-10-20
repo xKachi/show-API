@@ -84,3 +84,23 @@ func GetShowID(showid int64) (*Show, error) {
 
 	return &show, nil
 }
+
+func (show Show) Update () error {
+	query := `
+		UPDATE shows
+		SET name = ?, description = ?, location = ?, dateTime = ?
+		WHERE id = ?
+	`
+
+	stmt, err := db.DB.Prepare(query)
+
+	if err != nil {
+		return err
+	}
+
+	defer stmt.Close()
+
+	_ , err = stmt.Exec(show.Name, show.Description, show.Location, show.DateTime, show.ID)
+
+	return err
+}

@@ -83,4 +83,13 @@ func updateShow(context *gin.Context) {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Could not get the show with this id"})
 		return
 	}
+
+	updateShow.ID = showid
+	err = updateShow.Update()
+
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"message": "The show could not be updated"})
+	}
+
+	context.JSON(http.StatusOK, gin.H{"message": "Show has been updated successfully"})
 }
